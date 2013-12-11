@@ -38,7 +38,7 @@ module.exports = function(options) {
 		callback();
 	};
 
-	var tr = through(write, end);
+	var tr = through(options.objectMode ? {objectMode:true, highWaterMark:16} : {}, write, end);
 	var onlength = function(newLength) {
 		length = newLength;
 		tr.emit('length', length);

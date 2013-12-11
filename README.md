@@ -30,7 +30,7 @@ fs.createReadStream(filename)
 
 ## Methods
 
-# progress([options], [onprogress])
+### progress([options], [onprogress])
 
 You can instantiate in two ways:
 
@@ -39,7 +39,7 @@ var p = progress({time:100});
 p.on('progress', function(progress) { ... });
 ```
 
-or inline the onprogress event
+or inline the progress listener
 
 ``` js
 var p = progress({time:100}, function(progress) { ... });
@@ -47,7 +47,7 @@ var p = progress({time:100}, function(progress) { ... });
 
 ## Events
 
-# on('progress', onprogress)
+### on('progress', function(progress) { ... })
 ``` js
 var p = progress({time:100});
 p.on('progress', function(progress) { ... });

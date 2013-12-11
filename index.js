@@ -1,6 +1,7 @@
 var through = require('through2');
 
-module.exports = function(options) {
+module.exports = function(options, onprogress) {
+	if (typeof options === 'function') return module.exports(null, options);
 	options = options || {};
 
 	var length = options.length || 0;
@@ -58,6 +59,7 @@ module.exports = function(options) {
 	});
 
 	if (drain) tr.resume();
+	if (onprogress) tr.on('progress', onprogress);
 
 	return tr;
 };

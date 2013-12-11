@@ -28,6 +28,31 @@ fs.createReadStream(filename)
 
 ```
 
+## Methods
+
+# progress([options], [onprogress])
+
+You can instantiate in two ways:
+
+``` js
+var p = progress({time:100});
+p.on('progress', function(progress) { ... });
+```
+
+or inline the onprogress event
+
+``` js
+var p = progress({time:100}, function(progress) { ... });
+```
+
+## Events
+
+# on('progress', onprogress)
+``` js
+var p = progress({time:100});
+p.on('progress', function(progress) { ... });
+```
+
 ## Options
 
 ### time(integer)

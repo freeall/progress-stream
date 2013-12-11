@@ -6,20 +6,25 @@ Read the progress of a stream. You can either instantiate it with a specific len
 
 ## Usage
 
-This example reads 100 MB from stdin, and writes out the percentage every 100ms.
+This example copies a large file, and prints out the percentage every 100ms.
 
 ```js
 var progress = require('progress-stream');
+var fs = require('fs');
 
-p = progress({
-	time: 100,
-	length: 100000000
+var stat = fs.statSync(filename);
+var p = progress({
+	length: stat.size,
+	time: 100
 });
+
 p.on('progress', function(progress) {
-	console.log(progress.percentage);
+	console.log(Math.round(progress.percentage)+'%');
 });
 
-process.stdin.pipe();
+fs.createReadStream(filename)
+	.pipe(p)
+	.pipe(fs.createWriteStream(output));
 
 ```
 
@@ -46,7 +51,7 @@ This example uses request to download a 100 MB file, and writes out the percenta
 You can also find an example in `test/request.js`.
 
 ``` js
-var progress = require('progress-steram);
+var progress = require('progress-stream');
 var req = require('request');
 var fs = require('fs');
 

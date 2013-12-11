@@ -10,7 +10,9 @@
     "download",
     "upload",
     "file",
-    "streaming"
+    "streaming",
+    "request",
+    "http"
   ],
   "main": "index.js",
   "dependencies": {

@@ -1,0 +1,30 @@
+{
+  "name": "progress-stream",
+  "version": "0.1.0",
+  "description": "Read the progress of a stream",
+  "keywords": [
+    "stream",
+    "progress",
+    "percentage",
+    "percent",
+    "download",
+    "upload",
+    "file",
+    "streaming"
+  ],
+  "main": "index.js",
+  "dependencies": {
+    "through2": "~0.2.3"
+  },
+  "devDependencies": {
+    "request": "~2.29.0",
+    "speedometer": "~0.1.2",
+    "single-line-log": "~0.1.2",
+    "numeral": "~1.5.2"
+  },
+  "scripts": {
+    "test": "node test/http.js && node test/request.js"
+  },
+  "author": "freeall <freeall@gmail.com>",
+  "license": "BSD-2-Clause"
+}

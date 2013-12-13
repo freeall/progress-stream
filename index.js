@@ -1,4 +1,5 @@
 var through = require('through2');
+var speedometer = require('speedometer');
 
 module.exports = function(options, onprogress) {
 	if (typeof options === 'function') return module.exports(null, options);
@@ -7,29 +8,35 @@ module.exports = function(options, onprogress) {
 	var length = options.length || 0;
 	var time = options.time || 0;
 	var drain = options.drain || false;
-	var read = 0;
+	var transferred = 0;
 	var nextUpdate = Date.now()+time;
 	var delta = 0;
+	var speed = speedometer(options.speed || 5000);
 
 	var update = {
 		percentage: 0,
-		read: read,
-		length: length
+		transferred: transferred,
+		length: length,
+		remaining: length,
+		eta: 0
 	};
 
 	var emit = function(ended) {
 		update.delta = delta;
-		update.read = read;
-		update.length = length;
-		update.percentage = ended ? 100 : (length ? read/length*100 : 0);
+		update.percentage = ended ? 100 : (length ? transferred/length*100 : 0);
+		update.speed = speed(delta);
+		update.eta = Math.round(update.remaining / update.speed);
 		nextUpdate += time;
+
 		delta = 0;
 
 		tr.emit('progress', update);
 	};
 	var write = function(chunk, enc, callback) {
-		read += chunk.length;
+		transferred += chunk.length;
 		delta += chunk.length;
+		update.transferred = transferred;
+		update.remaining = length - transferred;
 
 		if (Date.now() >= nextUpdate) emit(false);
 		callback(null, chunk);
@@ -42,12 +49,19 @@ module.exports = function(options, onprogress) {
 	var tr = through(options.objectMode ? {objectMode:true, highWaterMark:16} : {}, write, end);
 	var onlength = function(newLength) {
 		length = newLength;
+		update.length = length;
+		update.remaining = length - update.transferred;
 		tr.emit('length', length);
 	};
 	tr.on('pipe', function(stream) {
 		// Support http module
 		if (stream.readable && !stream.writable && stream.headers) {
 			return onlength(parseInt(stream.headers['content-length'] || 0));
+		}
+
+		// Support streams with a length property
+		if (typeof stream.length === 'number') {
+			return onlength(stream.length);
 		}
 
 		// Support request module
@@ -61,5 +75,11 @@ module.exports = function(options, onprogress) {
 	if (drain) tr.resume();
 	if (onprogress) tr.on('progress', onprogress);
 
+	tr.progress = function() {
+		update.speed = speed(0);
+		update.eta = Math.round(update.remaining / update.speed);
+
+		return update;
+	};
 	return tr;
 };

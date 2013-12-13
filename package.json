@@ -1,6 +1,6 @@
 {
   "name": "progress-stream",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Read the progress of a stream",
   "repository": {
     "type": "git",
@@ -20,11 +20,11 @@
   ],
   "main": "index.js",
   "dependencies": {
-    "through2": "~0.2.3"
+    "through2": "~0.2.3",
+    "speedometer": "~0.1.2"
   },
   "devDependencies": {
     "request": "~2.29.0",
-    "speedometer": "~0.1.2",
     "single-line-log": "~0.1.2",
     "numeral": "~1.5.2"
   },

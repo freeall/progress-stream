@@ -1,31 +1,32 @@
 # progress-stream
 
-Read the progress of a stream. You can either instantiate it with a specific length, or it will read the length automatically if you're using the request module or http module.
+Read the progress of a stream. Supports speed and eta.
+
+Gets the lengths of the stream automatically if you're using the request or http module. You can also pass the length on initiation. Progress-stream will also check to see if the stream already have a length property.
 
 	npm install progress-stream
 
 ## Usage
 
-This example copies a large file, and prints out the percentage every 100ms.
+This example copies a large file, and prints out the percentage, speed and remaining every 100ms.
 
 ```js
 var progress = require('progress-stream');
 var fs = require('fs');
 
 var stat = fs.statSync(filename);
-var p = progress({
+var str = progress({
 	length: stat.size,
 	time: 100
 });
 
-p.on('progress', function(progress) {
-	console.log(Math.round(progress.percentage)+'%');
+str.on('progress', function(progress) {
+	console.log(Math.round(progress.percentage) + '% ' + progress.speed + 'b/s' + ' ' + progress.remaining + ' bytes left');
 });
 
 fs.createReadStream(filename)
-	.pipe(p)
+	.pipe(str)
 	.pipe(fs.createWriteStream(output));
-
 ```
 
 ## Methods
@@ -35,22 +36,35 @@ fs.createReadStream(filename)
 You can instantiate in two ways:
 
 ``` js
-var p = progress({time:100});
-p.on('progress', function(progress) { ... });
+var str = progress({time:100});
+str.on('progress', function(progress) { ... });
 ```
 
 or inline the progress listener
 
 ``` js
-var p = progress({time:100}, function(progress) { ... });
+var str = progress({time:100}, function(progress) { ... });
+```
+
+## Properties
+
+### .progress
+
+You can get the progress from the progress property.
+
+``` js
+var str = progress({time:100});
+
+console.log(str.progress);
 ```
 
 ## Events
 
 ### on('progress', function(progress) { ... })
+
 ``` js
-var p = progress({time:100});
-p.on('progress', function(progress) { ... });
+var str = progress({time:100});
+str.on('progress', function(progress) { ... });
 ```
 
 ## Options
@@ -58,6 +72,10 @@ p.on('progress', function(progress) { ... });
 ### time(integer)
 
 Sets how often progress events is emitted. If omitted then defaults to emit every time a chunk is received.
+
+### speed(integer)
+
+Sets how long the speedometer needs to calculate the speed. Defaults to 5 sec.
 
 ### length(integer)
 
@@ -80,16 +98,16 @@ var progress = require('progress-stream');
 var req = require('request');
 var fs = require('fs');
 
-var p = progress({
+var str = progress({
 	time: 1000
 });
 
-p.on('progress', function(progress) {
+str.on('progress', function(progress) {
 	console.log(Math.round(progress.percentage)+'%');
 });
 
 req('http://cachefly.cachefly.net/100mb.test', { headers: { 'user-agent': 'test' }})
-	.pipe(p)
+	.pipe(str)
 	.pipe(fs.createWriteStream('test.data'));
 ```
 

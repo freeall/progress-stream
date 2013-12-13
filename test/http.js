@@ -2,13 +2,18 @@ var progress = require('../index');
 var http = require('http');
 var fs = require('fs');
 var log = require('single-line-log');
-var speedometer = require('speedometer');
 var numeral = require('numeral');
 
-var speed = speedometer();
-var p = progress({drain:true, time:100});
-p.on('progress', function(progress) {
-	log(Math.round(progress.percentage)+'%', numeral(speed(progress.delta)).format('0.00 b')+'/s');
+var str = progress({
+	drain: true,
+	time: 100,
+	speed: 20
+});
+str.on('progress', function(progress) {
+	log(Math.round(progress.percentage)+'%', 
+	    numeral(progress.speed).format('0.00 b')+'/s',
+	    numeral(progress.eta).format('00:00:00')+' left',
+	    numeral(progress.remaining).format('0.00 b')+' remaining');
 });
 
 var options = {
@@ -20,7 +25,7 @@ var options = {
 	}
 };
 http.request(options, function(response) {
-	response.pipe(p);
+	response.pipe(str);
 }).end();
 
-console.log('progress-stream using http module - downloading 100 MB file');
+console.log('progress-stream using http module - downloading 10 MB file');

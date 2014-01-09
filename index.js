@@ -12,13 +12,15 @@ module.exports = function(options, onprogress) {
 	var nextUpdate = Date.now()+time;
 	var delta = 0;
 	var speed = speedometer(options.speed || 5000);
+	var startTime = Date.now();
 
 	var update = {
 		percentage: 0,
 		transferred: transferred,
 		length: length,
 		remaining: length,
-		eta: 0
+		eta: 0,
+		runtime: 0
 	};
 
 	var emit = function(ended) {
@@ -26,6 +28,7 @@ module.exports = function(options, onprogress) {
 		update.percentage = ended ? 100 : (length ? transferred/length*100 : 0);
 		update.speed = speed(delta);
 		update.eta = Math.round(update.remaining / update.speed);
+		update.runtime = parseInt((Date.now() - startTime)/1000);
 		nextUpdate += time;
 
 		delta = 0;

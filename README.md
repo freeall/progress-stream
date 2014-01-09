@@ -21,7 +21,20 @@ var str = progress({
 });
 
 str.on('progress', function(progress) {
-	console.log(Math.round(progress.percentage) + '% ' + progress.speed + 'b/s' + ' ' + progress.remaining + ' bytes left');
+	console.log(progress);
+
+	/*
+	{
+		percentage: 9.05,
+		transferred: 949624,
+		length: 10485760,
+		remaining: 9536136,
+		eta: 42,
+		runtime: 3,
+		delta: 295396,
+		speed: 949624
+	}
+	*/
 });
 
 fs.createReadStream(filename)
@@ -56,6 +69,19 @@ You can get the progress from the progress property.
 var str = progress({time:100});
 
 console.log(str.progress);
+
+/*
+{
+	percentage: 9.05,
+	transferred: 949624,
+	length: 10485760,
+	remaining: 9536136,
+	eta: 10,
+	runtime: 0,
+	delta: 295396,
+	speed: 949624
+}
+*/
 ```
 
 ## Events

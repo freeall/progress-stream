@@ -10,16 +10,15 @@ var str = progress({
 	speed: 20
 });
 str.on('progress', function(progress) {
-	log(Math.round(progress.percentage)+'%', 
-	    numeral(progress.speed).format('0.00 b')+'/s',
-	    numeral(progress.eta).format('00:00:00')+' left',
-	    numeral(progress.remaining).format('0.00 b')+' remaining');
+	log('Running: '+numeral(progress.runtime).format('00:00:00')+' ('+numeral(progress.transferred).format('0 b')+')\n'+
+		'Left:    '+numeral(progress.eta).format('00:00:00')+' ('+numeral(progress.remaining).format('0 b')+')\n'+
+		numeral(progress.speed).format('0.00b')+'/s '+Math.round(progress.percentage)+'%');
 });
 
 var options = {
 	method: 'GET',
 	host: 'cachefly.cachefly.net',
-	path: '/100mb.test',
+	path: '/10mb.test',
 	headers: {
 		'user-agent': 'testy test'
 	}

@@ -8,10 +8,9 @@ var str = progress({
 	drain: true,
 	time: 100
 }, function(progress) {
-	log(Math.round(progress.percentage)+'%', 
-	    numeral(progress.speed).format('0.00 b')+'/s',
-	    numeral(progress.eta).format('00:00:00')+' left',
-	    numeral(progress.remaining).format('0.00 b')+' remaining');
+	log('Running: '+numeral(progress.runtime).format('00:00:00')+' ('+numeral(progress.transferred).format('0 b')+')\n'+
+		'Left:    '+numeral(progress.eta).format('00:00:00')+' ('+numeral(progress.remaining).format('0 b')+')\n'+
+		numeral(progress.speed).format('0.00b')+'/s '+Math.round(progress.percentage)+'%');
 });
 
 req('http://cachefly.cachefly.net/10mb.test', {

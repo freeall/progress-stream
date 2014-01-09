@@ -33,8 +33,9 @@ module.exports = function(options, onprogress) {
 		tr.emit('progress', update);
 	};
 	var write = function(chunk, enc, callback) {
-		transferred += chunk.length;
-		delta += chunk.length;
+		var len = options.objectMode ? 1 : chunk.length;
+		transferred += len;
+		delta += len;
 		update.transferred = transferred;
 		update.remaining = length >= transferred ? length - transferred : 0;
 

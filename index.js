@@ -36,7 +36,7 @@ module.exports = function(options, onprogress) {
 		transferred += chunk.length;
 		delta += chunk.length;
 		update.transferred = transferred;
-		update.remaining = length - transferred;
+		update.remaining = length >= transferred ? length - transferred : 0;
 
 		if (Date.now() >= nextUpdate) emit(false);
 		callback(null, chunk);

@@ -141,3 +141,19 @@ req('http://cachefly.cachefly.net/100mb.test', { headers: { 'user-agent': 'test'
 
 In `test/http.js` it's shown how to do it with the http module.
 
+
+## Methods
+
+
+### `setLength(newLength)`
+
+Sometimes, you don't know how big a stream is right away (e.g. multipart file uploads).  You might find out after a few chunks have already passed through the stream, seconds or even minutes later.  In this case, you can use the `setLength` method to recalculate the relevant tracked progress data.
+
+```js
+var str = progress({});
+someFickleStreamInstance.pipe(str).pipe(fs.createWriteStream('test.data'));
+
+someFickleStreamInstance.on('conviction', function nowIKnowMyLength (actualLength) {
+  str.setLength(actualLength);
+});
+```

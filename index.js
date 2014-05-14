@@ -57,6 +57,12 @@ module.exports = function(options, onprogress) {
 		update.remaining = length - update.transferred;
 		tr.emit('length', length);
 	};
+	
+	// Expose `onlength()` handler as `setLength()` to support custom use cases where length
+	// is not known until after a few chunks have already been pumped, or is
+	// calculated on the fly.
+	tr.setLength = onlength;
+	
 	tr.on('pipe', function(stream) {
 		// Support http module
 		if (stream.readable && !stream.writable && stream.headers) {

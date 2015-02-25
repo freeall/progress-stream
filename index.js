@@ -76,6 +76,7 @@ module.exports = function(options, onprogress) {
 
 		// Support request module
 		stream.on('response', function(res) {
+			if (res && res.headers['content-encoding'] === 'gzip') return;
 			if (res && res.headers && res.headers['content-length']) {
 				return onlength(parseInt(res.headers['content-length']));
 			}

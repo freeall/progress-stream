@@ -1,6 +1,6 @@
 {
   "name": "progress-stream",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "description": "Read the progress of a stream",
   "repository": {
     "type": "git",

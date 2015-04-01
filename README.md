@@ -111,6 +111,10 @@ If you already know the length of the stream, then you can set it. Defaults to 0
 
 In case you don't want to include a readstream after progress-stream, set to true to drain automatically. Defaults to false.
 
+### transferred(integer)
+
+If you want to set how much data have previous been downloaded. Useful for a resumed download.
+
 ## Examples
 
 ### Using the request module

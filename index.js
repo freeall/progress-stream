@@ -64,6 +64,7 @@ module.exports = function(options, onprogress) {
 	tr.setLength = onlength;
 	
 	tr.on('pipe', function(stream) {
+		if (typeof length === 'number') return;
 		// Support http module
 		if (stream.readable && !stream.writable && stream.headers) {
 			return onlength(parseInt(stream.headers['content-length'] || 0));

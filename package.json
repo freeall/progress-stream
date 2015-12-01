@@ -21,12 +21,11 @@
   "main": "index.js",
   "dependencies": {
     "through2": "~0.2.3",
-    "speedometer": "~0.1.2",
-    "single-line-log": "~1.0.0"
+    "speedometer": "~0.1.2"
   },
   "devDependencies": {
     "request": "~2.29.0",
-    "single-line-log": "~0.1.2",
+    "single-line-log": "~1.0.0",
     "numeral": "~1.5.2"
   },
   "scripts": {

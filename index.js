@@ -29,7 +29,7 @@ module.exports = function(options, onprogress) {
 		update.speed = speed(delta);
 		update.eta = Math.round(update.remaining / update.speed);
 		update.runtime = parseInt((Date.now() - startTime)/1000);
-		nextUpdate += time;
+		nextUpdate = Date.now()+time;
 
 		delta = 0;
 

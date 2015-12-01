@@ -1,7 +1,7 @@
 var progress = require('../index');
 var http = require('http');
 var fs = require('fs');
-var log = require('single-line-log');
+var log = require('single-line-log').stdout;
 var numeral = require('numeral');
 
 var str = progress({

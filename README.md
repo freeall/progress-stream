@@ -17,7 +17,7 @@ var fs = require('fs');
 var stat = fs.statSync(filename);
 var str = progress({
 	length: stat.size,
-	time: 100
+	time: 100 /* ms */
 });
 
 str.on('progress', function(progress) {
@@ -97,7 +97,7 @@ str.on('progress', function(progress) { ... });
 
 ### time(integer)
 
-Sets how often progress events is emitted. If omitted then defaults to emit every time a chunk is received.
+Sets how often progress events is emitted in ms. If omitted then defaults to emit every time a chunk is received.
 
 ### speed(integer)
 

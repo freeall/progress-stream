@@ -61,14 +61,14 @@ var str = progress({time:100}, function(progress) { ... });
 
 ## Properties
 
-### .progress
+### .progress()
 
-You can get the progress from the progress property.
+You can get the progress from the progress function.
 
 ``` js
 var str = progress({time:100});
 
-console.log(str.progress);
+console.log(str.progress());
 
 /*
 {

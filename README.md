@@ -2,7 +2,7 @@
 
 Read the progress of a stream. Supports speed and eta.
 
-Gets the lengths of the stream automatically if you're using the request or http module. You can also pass the length on initiation. Progress-stream will also check to see if the stream already have a length property.
+Gets the length of the stream automatically if you're using the request or http module. You can also pass the length on initiation. Progress-stream will also check to see if the stream already has a length property.
 
 	npm install progress-stream
 
@@ -97,7 +97,7 @@ str.on('progress', function(progress) { ... });
 
 ### time(integer)
 
-Sets how often progress events is emitted in ms. If omitted then defaults to emit every time a chunk is received.
+Sets how often progress events are emitted in ms. If omitted then the default is to do so every time a chunk is received.
 
 ### speed(integer)
 
@@ -113,7 +113,7 @@ In case you don't want to include a readstream after progress-stream, set to tru
 
 ### transferred(integer)
 
-If you want to set how much data have previous been downloaded. Useful for a resumed download.
+If you want to set the size of previously downloaded data. Useful for a resumed download.
 
 ## Examples
 
